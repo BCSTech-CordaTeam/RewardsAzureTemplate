@@ -33,7 +33,7 @@ mkdir /home/$USER/rewards # && cd "$_"
 cd /home/$USER/rewards
 
 ### Download the jar
-wget https://github.com/BCSTech-CordaTeam/RewardsAzure/blob/master/$FILE.7z?raw=true
+wget https://github.com/BCSTech-CordaTeam/RewardsAzureTemplate/blob/master/$FILE.7z?raw=true
 mv $FILE.7z?raw=true $FILE.7z
 
 ### Extract it
