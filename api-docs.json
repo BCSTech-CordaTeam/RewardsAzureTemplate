@@ -1,0 +1,987 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API Definitions for Rewards Framework",
+        "version": "1.0.0",
+        "title": "Rewards Framework",
+        "termsOfService": "Terms of service",
+        "contact": {
+            "name": "ContactPerson"
+        },
+        "license": {
+            "name": "License of API"
+        }
+    },
+    "host": "0.0.0.0:8080",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "health-controller",
+            "description": "Health Controller"
+        },
+        {
+            "name": "reward-controller",
+            "description": "Reward Controller"
+        },
+        {
+            "name": "tier-controller",
+            "description": "Tier Controller"
+        },
+        {
+            "name": "transaction-reward-points-controller",
+            "description": "Transaction Reward Points Controller"
+        },
+        {
+            "name": "user-profile-controller",
+            "description": "User Profile Controller"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/admin/tier/add": {
+            "post": {
+                "tags": [
+                    "tier-controller"
+                ],
+                "summary": "Add a new tier",
+                "description": "Api to add a new tier in rewards system",
+                "operationId": "addNewTierUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "appId",
+                        "in": "header",
+                        "description": "framework",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "refTierDto",
+                        "description": "{\n\"tierLevel\" : \"sample tier\",\n\"thresholdPoints\" : 10\n}",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RefTierRequestDto"
+                        },
+                        "x-examples": {
+                            "application/json": "{\n\"tierLevel\" : \"sample tier\",\n\"thresholdPoints\" : 10\n}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "201": {
+                        "description": "Tier has been added successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Value for threshold point is not valid"
+                    },
+                    "409": {
+                        "description": "Tier already exists"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/admin/tier/all": {
+            "get": {
+                "tags": [
+                    "tier-controller"
+                ],
+                "summary": "Retrieve all tier levels",
+                "description": "Api to fetch all tier levels",
+                "operationId": "getAllTierLevelsUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tier Level fetched successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "No record exist in the reward system"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/admin/tier/edit": {
+            "put": {
+                "tags": [
+                    "tier-controller"
+                ],
+                "summary": "Edit a tier",
+                "description": "Api to update threshold points for the specified tier in rewards system",
+                "operationId": "editTierUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "appId",
+                        "in": "header",
+                        "description": "framework",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "refTierDto",
+                        "description": "{\n\"tierLevel\" : \"sample tier\",\n\"thresholdPoints\" : 10\n}",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RefTierRequestDto"
+                        },
+                        "x-examples": {
+                            "application/json": "{\n\"tierLevel\" : \"sample tier\",\n\"thresholdPoints\" : 10\n}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "201": {
+                        "description": "Updated threshold points for the tier in database",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Value for threshold point is not valid"
+                    },
+                    "409": {
+                        "description": "Tier already exists"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/admin/tier/loadRefData": {
+            "post": {
+                "tags": [
+                    "tier-controller"
+                ],
+                "summary": "Import tier levels in database",
+                "description": "Api to import tier levels in database",
+                "operationId": "loadTiersRefDataUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "201": {
+                        "description": "Loaded tiers in database",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/admin/transactionRewardPoints/add": {
+            "post": {
+                "tags": [
+                    "transaction-reward-points-controller"
+                ],
+                "summary": "Add a new transaction Reward point for a given type and role",
+                "description": "Add a new transaction reward point for a given type and role",
+                "operationId": "addNewTierUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "appId",
+                        "in": "header",
+                        "description": "framework",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "transactionRewardPointsRequestDto",
+                        "description": "{\n\t\"transactionType\": \"sample type\",\n\t\"transactionRole\": \"sample role\",\n\t\"rewardPoints\": 10\n}",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/TransactionRewardPointsRequestDto"
+                        },
+                        "x-examples": {
+                            "application/json": "{\n\t\"transactionType\": \"sample type\",\n\t\"transactionRole\": \"sample role\",\n\t\"rewardPoints\": 10\n}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "201": {
+                        "description": "Transaction reward point for the specified transaction type and role has been added successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Either transaction type or transaction role is empty or invalid reward points"
+                    },
+                    "409": {
+                        "description": "Transaction reward points for transaction type and role already exists in database"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/admin/transactionRewardPoints/all": {
+            "get": {
+                "tags": [
+                    "transaction-reward-points-controller"
+                ],
+                "summary": "Retrieve all transaction type reward Points ",
+                "description": "Api to fetch all transaction type reward points ",
+                "operationId": "getAllTransactionRewardPointsUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reward points fetched successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Reward points for the requested transaction type and role does not exist in the reward system"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/admin/transactionRewardPoints/edit": {
+            "put": {
+                "tags": [
+                    "transaction-reward-points-controller"
+                ],
+                "summary": "Edit transaction reward points record based on transaction type and role",
+                "description": "Api to edit transaction reward point record based on transaction type and role",
+                "operationId": "editTransactionRewardPointsUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "appId",
+                        "in": "header",
+                        "description": "framework",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "transactionRewardPointsRequestDto",
+                        "description": "{\n\t\"transactionType\": \"sample type\",\n\t\"transactionRole\": \"sample role\",\n\t\"rewardPoints\": 10\n}",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/TransactionRewardPointsRequestDto"
+                        },
+                        "x-examples": {
+                            "application/json": "{\n\t\"transactionType\": \"sample type\",\n\t\"transactionRole\": \"sample role\",\n\t\"rewardPoints\": 10\n}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Updated transaction reward points based on transaction type and role in database",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Reward points for the requested transaction type and role does not exist in the reward system"
+                    },
+                    "409": {
+                        "description": "Transaction reward points for transaction type and role already exists in database"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/admin/transactionRewardPoints/loadRefData": {
+            "post": {
+                "tags": [
+                    "transaction-reward-points-controller"
+                ],
+                "summary": "Import transaction reward points based on transaction type and role in database",
+                "description": "Api to import transaction Reward Points based on transaction type and role in database",
+                "operationId": "loadTransactionRewardPointsRefDataUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "201": {
+                        "description": "Loaded transaction reward points based on transaction type and role in database",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/health": {
+            "get": {
+                "tags": [
+                    "health-controller"
+                ],
+                "summary": "rewardHealthCheck",
+                "operationId": "rewardHealthCheckUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/registration": {
+            "post": {
+                "tags": [
+                    "user-profile-controller"
+                ],
+                "summary": "User Registration",
+                "description": "Api to register a user",
+                "operationId": "registerUserUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "appId",
+                        "in": "header",
+                        "description": "framework",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "userProfileRequestDto",
+                        "description": "{\n\t\"userName\" : \"demo\",\n\t\"userStatus\" : \"ACTIVE\"\n}",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UserProfileRequestDto"
+                        },
+                        "x-examples": {
+                            "application/json": "{\n\t\"userName\" : \"demo\",\n\t\"userStatus\" : \"ACTIVE\"\n}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User is registered successfully",
+                        "schema": {
+                            "$ref": "#/definitions/UserProfileResponseDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Username is empty"
+                    },
+                    "409": {
+                        "description": "User already exists"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/reward/calculate": {
+            "post": {
+                "tags": [
+                    "reward-controller"
+                ],
+                "summary": "Reward Calculation",
+                "description": "Api to calculate reward points",
+                "operationId": "calculateRewardPointsUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "appId",
+                        "in": "header",
+                        "description": "framework",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "userRewardPointDto",
+                        "description": "{\n\t\"userName\" : \"demo\",\n\t\"transactionType\" : \"Safety Briefing\",\n\t\"transactionRole\" : \"Supervisor\"\n}",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UserRewardPointRequestDto"
+                        },
+                        "x-examples": {
+                            "application/json": "{\n\t\"userName\" : \"demo\",\n\t\"transactionType\" : \"Safety Briefing\",\n\t\"transactionRole\" : \"Supervisor\"\n}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Reward points calculated for the given transaction",
+                        "schema": {
+                            "$ref": "#/definitions/UserRewardPointResponseDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Either username or transaction type or transaction role is empty"
+                    },
+                    "404": {
+                        "description": "User does not exist in the reward system"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/reward/cardNumber/{cardNumber}": {
+            "get": {
+                "tags": [
+                    "reward-controller"
+                ],
+                "summary": "Retrieve reward points of an active user using Reward Card Number",
+                "description": "Api to fetch reward Points of an active user using Reward Card Number",
+                "operationId": "getActiveUserRewardPointsByCardNumberUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "cardNumber",
+                        "in": "path",
+                        "description": "Rewards Card Number",
+                        "required": true,
+                        "type": "string",
+                        "default": "100013677941"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Active reward record is retrieved from the rewards system",
+                        "schema": {
+                            "$ref": "#/definitions/UserRewardPointResponseDto"
+                        }
+                    },
+                    "404": {
+                        "description": "Unable to find active reward points record for the given user"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/reward/history/cardNumber/{cardNumber}": {
+            "get": {
+                "tags": [
+                    "reward-controller"
+                ],
+                "summary": "Retrieve reward points history of a user using reward card number",
+                "description": "Api to fetch reward points history of an active user using reward card number",
+                "operationId": "getRewardsHistoryByRewardCardNumberUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "cardNumber",
+                        "in": "path",
+                        "description": "Rewards Card Number",
+                        "required": true,
+                        "type": "string",
+                        "default": "100013677941"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User reward points history fetched successfully",
+                        "schema": {
+                            "$ref": "#/definitions/UserRewardPointResponseDto"
+                        }
+                    },
+                    "404": {
+                        "description": "Reward history for the requested input does not exist in the reward system"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/reward/history/user/{userName}": {
+            "get": {
+                "tags": [
+                    "reward-controller"
+                ],
+                "summary": "Retrieve reward points history of a user using user name",
+                "description": "Api to fetch reward points history of an active user using user name",
+                "operationId": "getRewardsHistoryByUserNameUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "userName",
+                        "in": "path",
+                        "description": "User Name",
+                        "required": true,
+                        "type": "string",
+                        "default": "demo"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User reward points history fetched successfully",
+                        "schema": {
+                            "$ref": "#/definitions/UserRewardPointResponseDto"
+                        }
+                    },
+                    "404": {
+                        "description": "Reward history for the requested input does not exist in the reward system"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/reward/user/{user}": {
+            "get": {
+                "tags": [
+                    "reward-controller"
+                ],
+                "summary": "Retrieve reward points of an active user using User Name",
+                "description": "Api to fetch reward Points of an active user using User Name",
+                "operationId": "getActiveUserRewardPointsByUserNameUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User Name",
+                        "required": true,
+                        "type": "string",
+                        "default": "demo"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Active reward record is retrieved from the rewards system",
+                        "schema": {
+                            "$ref": "#/definitions/UserRewardPointResponseDto"
+                        }
+                    },
+                    "404": {
+                        "description": "Unable to find active reward points record for the given user"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/tier/level/{rewardPoints}": {
+            "get": {
+                "tags": [
+                    "tier-controller"
+                ],
+                "summary": "Retrieve tier based on reward points",
+                "description": "Api to fetch tier based on reward points",
+                "operationId": "getTierLevelBasedOnPointsUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "rewardPoints",
+                        "in": "path",
+                        "description": "reward points",
+                        "required": true,
+                        "type": "string",
+                        "default": "700"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tier Level fetched successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Reward points given as input to retrieve tier is invalid"
+                    },
+                    "404": {
+                        "description": "Tier does not exist in the reward system for the specified inputs"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/tier/points/{tierLevel}": {
+            "get": {
+                "tags": [
+                    "tier-controller"
+                ],
+                "summary": "Retrieve threshold reward points based on tier level",
+                "description": "Api to fetch threshold reward points based on tier level",
+                "operationId": "getThresholdPointsBasedOnTierLevelUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "tierLevel",
+                        "in": "path",
+                        "description": "Tier level",
+                        "required": true,
+                        "type": "string",
+                        "default": "Silver"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reward points fetched successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Threshold points for the requested tier does not exist in the reward system"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/transactionRewardPoints/{transactionType}/{transactionRole}": {
+            "get": {
+                "tags": [
+                    "transaction-reward-points-controller"
+                ],
+                "summary": "Retrieve transaction's reward Points based on transaction Type and transaction role",
+                "description": "Api to fetch transaction's reward points based on transaction type and transaction role",
+                "operationId": "getRewardPointsBasedOnTxnTypeAndRoleUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "transactionRole",
+                        "in": "path",
+                        "description": "Transaction Role",
+                        "required": true,
+                        "type": "string",
+                        "default": "Supervisor"
+                    },
+                    {
+                        "name": "transactionType",
+                        "in": "path",
+                        "description": "Transaction Type",
+                        "required": true,
+                        "type": "string",
+                        "default": "Safety Briefing"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reward points fetched successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Reward points for the requested transaction type and role does not exist in the reward system"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "tags": [
+                    "user-profile-controller"
+                ],
+                "summary": "Retrieve user profile based on user name",
+                "description": "Api to fetch user profile based on user name",
+                "operationId": "getUserUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UserName",
+                        "required": true,
+                        "type": "string",
+                        "default": "demo"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User fetched successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "User does not exist in the reward system"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "definitions": {
+        "RefTierRequestDto": {
+            "type": "object",
+            "properties": {
+                "thresholdPoints": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "tierLevel": {
+                    "type": "string"
+                }
+            },
+            "title": "RefTierRequestDto"
+        },
+        "TransactionRewardPointsRequestDto": {
+            "type": "object",
+            "properties": {
+                "rewardPoints": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "transactionRole": {
+                    "type": "string"
+                },
+                "transactionType": {
+                    "type": "string"
+                }
+            },
+            "title": "TransactionRewardPointsRequestDto"
+        },
+        "UserProfileRequestDto": {
+            "type": "object",
+            "properties": {
+                "userName": {
+                    "type": "string"
+                },
+                "userStatus": {
+                    "type": "string",
+                    "enum": [
+                        "ACTIVE",
+                        "INACTIVE",
+                        "NONE"
+                    ]
+                }
+            },
+            "title": "UserProfileRequestDto"
+        },
+        "UserProfileResponseDto": {
+            "type": "object",
+            "properties": {
+                "rewardCardNumber": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "userStatus": {
+                    "type": "string",
+                    "enum": [
+                        "ACTIVE",
+                        "INACTIVE",
+                        "NONE"
+                    ]
+                }
+            },
+            "title": "UserProfileResponseDto"
+        },
+        "UserRewardPointRequestDto": {
+            "type": "object",
+            "properties": {
+                "rewardCardNumber": {
+                    "type": "string"
+                },
+                "transactionRole": {
+                    "type": "string"
+                },
+                "transactionType": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                }
+            },
+            "title": "UserRewardPointRequestDto"
+        },
+        "UserRewardPointResponseDto": {
+            "type": "object",
+            "properties": {
+                "accumulatedPoints": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "pointsEarned": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "rewardCardNumber": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "ACTIVE",
+                        "INACTIVE",
+                        "NONE"
+                    ]
+                },
+                "tierExpiryDateTime": {
+                    "type": "string",
+                    "example": "dd-MM-yyyy HH:mm:ss"
+                },
+                "tierLevel": {
+                    "type": "string"
+                },
+                "transactionDateTime": {
+                    "type": "string",
+                    "example": "dd-MM-yyyy HH:mm:ss"
+                },
+                "transactionId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "transactionRole": {
+                    "type": "string"
+                },
+                "transactionType": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                }
+            },
+            "title": "UserRewardPointResponseDto"
+        }
+    }
+}
