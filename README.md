@@ -12,7 +12,7 @@ After deployment, two APIs must be called to initialise the Rewards Framework.
 
 2. POST http://ip:8080/admin/transactionRewardPoints/loadRefData
 
-Find the rest of the APIs that can be used [here](./api-docs.json), with a nice UI [here](./index.html).
+Find the rest of the APIs that can be used [here](./api-docs.json), with a nice UI [here](./docs.html).
 
 This swagger documentation can also be found on your deployed server at http://ip:8080/v2/api-docs, or a nicer ui of it at http://ip:8080/swagger-ui.html.
 
