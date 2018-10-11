@@ -12,7 +12,7 @@
             "name": "License of API"
         }
     },
-    "host": "0.0.0.0:8080",
+    "host": "localhost:8080",
     "basePath": "/",
     "tags": [
         {
