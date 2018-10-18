@@ -6,17 +6,15 @@ The APIs require a Postgres database to function, so during creation you are abl
 
 ## How to Use
 
-After deployment, two APIs must be called to initialise the Rewards Framework.
+After deployment, you need to create two important configurations. The first is to create the different tiers and at how many points each tier requires to be achieved. The second is the list of different activities, user types and the amount of points they gain from completing an activity.
 
-1. POST http://ip:8080/admin/tier/loadRefData
+### Default Configurations
 
-2. POST http://ip:8080/admin/transactionRewardPoints/loadRefData
+Call
 
-Find the rest of the APIs that can be used [here](./api-docs.json), with a nice UI [here](./docs.html).
+1. POST `http://ip:8080/admin/tier/loadRefData`
 
-This swagger documentation can also be found on your deployed server at http://ip:8080/v2/api-docs, or a nicer ui of it at http://ip:8080/swagger-ui.html.
-
-## Details
+2. POST `http://ip:8080/admin/transactionRewardPoints/loadRefData`
 
 The default reward tier levels after calling `/admin/tier/loadRefData` are:
 
@@ -29,13 +27,27 @@ The default reward tier levels after calling `/admin/tier/loadRefData` are:
 
 The default activities and roles after calling `/admin/transactionRewardPoints/loadRefData` are:
 
-| Activity           | User       | Points gained |
+| Activity           | User Type  | Points gained |
 | ------------------ | ---------- | ------------- |
 | Safety Briefing    | Attendee   | 10            |
 | Safety Briefing    | Supervisor | 10            |
 | Safety Inspection  | Inspector  | 10            |
 | Safety Observation | Observor   | 15            |
 | Joining            | New User   | 0             |
+
+### Custom Configurations
+
+Instead of using our default configurations, you can instead add your own tiers and activities with these two APIs:
+
+1. POST `http://ip:8080/admin/tier/add`
+
+2. POST `http://ip:8080/admin/transactionRewardPoints/add`
+
+### API Documentation
+
+The rest of the APIs can be found [here](./api-docs.json), with a nice UI [here](./docs.html).
+
+This OpenApi documentation can also be found on your deployed server at `http://ip:8080/v2/api-docs`, or a nicer ui of it at `http://ip:8080/swagger-ui.html`.
 
 ## Support
 
