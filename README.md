@@ -8,15 +8,15 @@ The APIs require a Postgres database to function, so during creation you are abl
 
 After deployment, you need to create two important configurations. The first is to create the different tiers and at how many points each tier requires to be achieved. The second is the list of different activities, user types and the amount of points they gain from completing an activity.
 
-### Default Configurations
+### Sample Configurations
 
-Call
+To see how the sample works invoke the below apis:
 
 1. POST `http://ip:8080/admin/tier/loadRefData`
 
 2. POST `http://ip:8080/admin/transactionRewardPoints/loadRefData`
 
-The default reward tier levels after calling `/admin/tier/loadRefData` are:
+The sample reward tier levels after calling `/admin/tier/loadRefData` are:
 
 | Tier     | Required Points |
 | -------- | --------------- |
@@ -25,7 +25,7 @@ The default reward tier levels after calling `/admin/tier/loadRefData` are:
 | Gold     | 5000            |
 | Platinum | 10000           |
 
-The default activities and roles after calling `/admin/transactionRewardPoints/loadRefData` are:
+The sample activities and user types after calling `/admin/transactionRewardPoints/loadRefData` are:
 
 | Activity           | User Type  | Points gained |
 | ------------------ | ---------- | ------------- |
