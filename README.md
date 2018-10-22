@@ -37,7 +37,7 @@ The sample activities and user types after calling `/admin/transactionRewardPoin
 
 ### Custom Configurations
 
-Instead of using our default configurations, you can instead add your own tiers and activities with these two APIs:
+Instead of using our sample configurations, you can instead add your own tiers and activities with these two APIs:
 
 1. POST `http://ip:8080/admin/tier/add`
 
